@@ -15,6 +15,14 @@ class BooksController < ApplicationController
     end
   end
 
+  def destroy
+    Book.find(params[:id]).destroy!
+
+    head :no_content #Status code for no content after deleted
+    rescue ActiveRecord::RecordNotDestroyed
+      render json: {}, status: :unprocessable_entity
+  end
+
   private
 
   def book_params
